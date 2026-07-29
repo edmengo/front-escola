@@ -1,55 +1,109 @@
-import { useEffect, useState } from 'react';
-import { api } from './api';
+import { BrowserRouter as Router, Routes, Route, Link, Outlet, Navigate, useNavigate } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import ListaEntidades from './pages/Entidades/ListaEntidades';
+import CadastroEntidade from './pages/Entidades/CadastroEntidade';
+import EditarEntidade from './pages/Entidades/EditarEntidade';
+import ListaCursos from './pages/Cursos/ListaCursos';
+import CadastroCurso from './pages/Cursos/CadastroCurso';
+import EditarCurso from './pages/Cursos/EditarCurso';
+import ListaAlunos from './pages/Alunos/ListaAlunos';
+import CadastroAluno from './pages/Alunos/CadastroAluno';
+import EditarAluno from './pages/Alunos/EditarAluno';
 
-// Reaproveitando a interface que você tem no back-end
-interface Escola {
-  id: number;
-  nome: string;
+import { Toaster } from 'react-hot-toast';
+
+// 1. O Componente AdminLayout agora também protege as rotas
+function AdminLayout() {
+  const navigate = useNavigate();
+  
+  // Verifica se o usuário existe no localStorage
+  const usuarioLocal = localStorage.getItem('usuario');
+
+  // Se não existir, redireciona imediatamente para a tela de login
+  if (!usuarioLocal) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Função para fazer logout
+  const handleLogout = () => {
+    localStorage.removeItem('usuario'); // Limpa a sessão
+    navigate('/login'); // Manda de volta pro login
+  };
+
+  return (
+    <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'sans-serif' }}>
+      {/* MENU LATERAL (Sidebar) */}
+      <nav style={{ 
+        width: '250px', 
+        backgroundColor: '#1a1a1a', 
+        padding: '20px', 
+        color: 'white',
+        display: 'flex',
+        flexDirection: 'column' // Adicionado para empurrar o botão de sair para baixo
+      }}>
+        <h2>Painel Admin</h2>
+        
+        <ul style={{ listStyle: 'none', padding: 0, marginTop: '30px', flex: 1 }}>
+          <li style={{ marginBottom: '15px' }}><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>🏠 Início</Link></li>
+          <li style={{ marginBottom: '15px' }}><Link to="/entidades" style={{ color: 'white', textDecoration: 'none' }}>🏢 Entidades</Link></li>
+          <li style={{ marginBottom: '15px' }}><Link to="/cursos" style={{ color: 'white', textDecoration: 'none' }}>📚 Cursos</Link></li> 
+          <li style={{ marginBottom: '15px' }}><Link to="/alunos" style={{ color: 'white', textDecoration: 'none' }}>👨‍🎓 Alunos</Link></li>
+        </ul>
+
+        {/* Botão de Sair no final do menu */}
+        <button 
+          onClick={handleLogout}
+          style={{
+            padding: '10px',
+            backgroundColor: '#dc2626', // Vermelho tailwind
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            marginTop: 'auto' // Joga o botão pro fundo
+          }}
+        >
+          🚪 Sair do Sistema
+        </button>
+      </nav>
+
+      {/* ÁREA DE CONTEÚDO */}
+      <main style={{ flex: 1, padding: '30px', backgroundColor: '#f4f4f4', color: '#333' }}>
+        <Outlet />
+      </main>
+    </div>
+  );
 }
 
 function App() {
-  const [escolas, setEscolas] = useState<Escola[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [erro, setErro] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Função que vai lá na sua API buscar os dados
-    const carregarEscolas = async () => {
-      try {
-        const response = await api.get('/escolas');
-        setEscolas(response.data);
-      } catch (err: any) {
-        setErro('Erro ao carregar os dados. Verifique se a API está online.');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    carregarEscolas();
-  }, []);
-
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Painel Administrativo</h1>
-      <h2>Lista de Escolas</h2>
-
-      {loading && <p>Carregando dados da nuvem...</p>}
+    <Router>
+      <Toaster position="top-right" reverseOrder={false} />
       
-      {erro && <p style={{ color: 'red' }}>{erro}</p>}
+      <Routes>
+        {/* ROTA PÚBLICA */}
+        <Route path="/login" element={<Login />} />
 
-      {!loading && !erro && escolas.length === 0 && (
-        <p>Nenhuma escola cadastrada ainda.</p>
-      )}
+        {/* ROTAS PRIVADAS E PROTEGIDAS */}
+        <Route element={<AdminLayout />}>
+          <Route path="/" element={<Home />} />
+          
+          <Route path="/entidades" element={<ListaEntidades />} />
+          <Route path="/entidades/novo" element={<CadastroEntidade />} />
+          <Route path="/entidades/editar/:id" element={<EditarEntidade />} />
+          
+          <Route path="/cursos" element={<ListaCursos />} />
+          <Route path="/cursos/novo" element={<CadastroCurso />} />
+          <Route path="/cursos/editar/:id" element={<EditarCurso />} />
 
-      <ul>
-        {escolas.map((escola) => (
-          <li key={escola.id} style={{ marginBottom: '10px' }}>
-            <strong>ID:</strong> {escola.id} | <strong>Nome:</strong> {escola.nome}
-          </li>
-        ))}
-      </ul>
-    </div>
+          <Route path="/alunos" element={<ListaAlunos />} />
+          <Route path="/alunos/novo" element={<CadastroAluno />} />
+          <Route path="/alunos/editar/:id" element={<EditarAluno />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
