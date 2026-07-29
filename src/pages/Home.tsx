@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-
 export default function Home() {
   const [totalEscolas, setTotalEscolas] = useState(0);
   const [totalCursos, setTotalCursos] = useState(0);
@@ -14,10 +13,22 @@ export default function Home() {
   useEffect(() => {
     const carregarDashboard = async () => {
       try {
+        // 1. 🔐 Pega o token salvo no login
+        const token = localStorage.getItem('token');
+
+        // 2. 🔐 Prepara a "chave de acesso" para a API
+        const fetchOptions = {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        };
+
+        // 3. 🔐 Envia a chave (fetchOptions) em todas as requisições
         const [resEscolas, resCursos, resAlunos] = await Promise.all([
-          fetch('http://localhost:3000/escolas'),
-          fetch('http://localhost:3000/cursos'),
-          fetch('http://localhost:3000/alunos')
+          fetch('http://localhost:3000/escolas', fetchOptions),
+          fetch('http://localhost:3000/cursos', fetchOptions),
+          fetch('http://localhost:3000/alunos', fetchOptions)
         ]);
 
         const escolas = resEscolas.ok ? await resEscolas.json() : [];
