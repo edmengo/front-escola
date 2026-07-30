@@ -17,7 +17,7 @@ export default function CadastroAluno() {
   useEffect(() => {
     const carregarCursos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/cursos');
+        const response = await fetch('https://api.codeapps.com.br/cursos');
         if (response.ok) {
           const data = await response.json();
           setCursos(data);
@@ -40,7 +40,7 @@ export default function CadastroAluno() {
     }
     
     try {
-      const response = await fetch('http://localhost:3000/alunos', {
+      const response = await fetch('https://api.codeapps.com.br/alunos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, matricula, curso_id: Number(cursoId) }),

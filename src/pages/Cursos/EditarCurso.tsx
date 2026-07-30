@@ -12,7 +12,7 @@ export default function EditarCurso() {
   useEffect(() => {
     const carregarCurso = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/cursos/${id}`);
+        const response = await fetch(`https://api.codeapps.com.br/cursos/${id}`);
         if (response.ok) {
           const data = await response.json();
           setNome(data.nome);
@@ -33,7 +33,7 @@ export default function EditarCurso() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/cursos/${id}`, {
+      const response = await fetch(`https://api.codeapps.com.br/cursos/${id}`, {
         method: 'PUT', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, escola_id: escolaId }),

@@ -21,13 +21,13 @@ export default function EditarAluno() {
     const carregarDadosIniciais = async () => {
       try {
         // Busca os cursos para o select
-        const resCursos = await fetch('http://localhost:3000/cursos');
+        const resCursos = await fetch('https://api.codeapps.com.br/cursos');
         if (resCursos.ok) {
           setCursos(await resCursos.json());
         }
 
         // Busca os dados do aluno específico
-        const resAluno = await fetch(`http://localhost:3000/alunos/${id}`);
+        const resAluno = await fetch(`https://api.codeapps.com.br/alunos/${id}`);
         if (resAluno.ok) {
           const data = await resAluno.json();
           setNome(data.nome);
@@ -50,7 +50,7 @@ export default function EditarAluno() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/alunos/${id}`, {
+      const response = await fetch(`https://api.codeapps.com.br/alunos/${id}`, {
         method: 'PUT', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, matricula, curso_id: Number(cursoId) }),

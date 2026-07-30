@@ -17,7 +17,7 @@ export default function ListaEntidades() {
     const carregarEntidades = async () => {
       try {
         // Ajuste a URL se a sua API estiver em outro endereço
-        const response = await fetch('http://localhost:3000/escolas');
+        const response = await fetch('https://api.codeapps.com.br/escolas');
         const data = await response.json();
         setEntidades(data);
       } catch (err) {
@@ -36,7 +36,7 @@ export default function ListaEntidades() {
     if (!confirmar) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/escolas/${id}`, {
+      const response = await fetch(`https://api.codeapps.com.br/escolas/${id}`, {
         method: 'DELETE',
       });
 

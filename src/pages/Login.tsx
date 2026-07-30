@@ -16,7 +16,7 @@ export default function Login() {
 
     try {
       // Faz a requisição para a rota que acabamos de criar na api-escola
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('https://api.codeapps.com.br/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

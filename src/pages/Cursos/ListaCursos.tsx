@@ -14,7 +14,7 @@ export default function ListaCursos() {
   useEffect(() => {
     const carregarCursos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/cursos');
+        const response = await fetch('https://api.codeapps.com.br/cursos');
         const data = await response.json();
         setCursos(data);
       } catch (err) {
@@ -33,7 +33,7 @@ export default function ListaCursos() {
     if (!confirmar) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/cursos/${id}`, {
+      const response = await fetch(`https://api.codeapps.com.br/cursos/${id}`, {
         method: 'DELETE',
       });
 

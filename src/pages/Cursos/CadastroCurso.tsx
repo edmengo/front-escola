@@ -17,7 +17,7 @@ export default function CadastroCurso() {
   useEffect(() => {
     const carregarEscolas = async () => {
       try {
-        const response = await fetch('http://localhost:3000/escolas');
+        const response = await fetch('https://api.codeapps.com.br/escolas');
         if (response.ok) {
           const data = await response.json();
           setEscolas(data);
@@ -40,7 +40,7 @@ export default function CadastroCurso() {
     }
     
     try {
-      const response = await fetch('http://localhost:3000/cursos', {
+      const response = await fetch('https://api.codeapps.com.br/cursos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, escola_id: Number(escolaId) }), // <-- Enviando o escola_id exigido pela API

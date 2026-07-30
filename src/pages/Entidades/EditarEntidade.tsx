@@ -13,7 +13,7 @@ export default function EditarEntidade() {
   useEffect(() => {
     const carregarEntidade = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/escolas/${id}`);
+        const response = await fetch(`https://api.codeapps.com.br/escolas/${id}`);
         if (response.ok) {
           const data = await response.json();
           setNome(data.nome); // Preenche o campo com o nome vindo do banco
@@ -37,7 +37,7 @@ export default function EditarEntidade() {
     
     try {
       // Usamos o método PUT (ou PATCH) para atualizar dados existentes
-      const response = await fetch(`http://localhost:3000/escolas/${id}`, {
+      const response = await fetch(`https://api.codeapps.com.br/escolas/${id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',

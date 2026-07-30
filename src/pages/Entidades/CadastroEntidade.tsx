@@ -10,7 +10,7 @@ export default function CadastroEntidade() {
     e.preventDefault(); // Evita que a página recarregue
     
     try {
-      const response = await fetch('http://localhost:3000/escolas', {
+      const response = await fetch('https://api.codeapps.com.br/escolas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

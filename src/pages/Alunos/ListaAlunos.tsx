@@ -16,7 +16,7 @@ export default function ListaAlunos() {
   useEffect(() => {
     const carregarAlunos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/alunos');
+        const response = await fetch('https://api.codeapps.com.br/alunos');
         const data = await response.json();
         setAlunos(data);
       } catch (err) {
@@ -35,7 +35,7 @@ export default function ListaAlunos() {
     if (!confirmar) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/alunos/${id}`, {
+      const response = await fetch(`https://api.codeapps.com.br/alunos/${id}`, {
         method: 'DELETE',
       });
 

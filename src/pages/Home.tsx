@@ -26,9 +26,9 @@ export default function Home() {
 
         // 3. 🔐 Envia a chave (fetchOptions) em todas as requisições
         const [resEscolas, resCursos, resAlunos] = await Promise.all([
-          fetch('http://localhost:3000/escolas', fetchOptions),
-          fetch('http://localhost:3000/cursos', fetchOptions),
-          fetch('http://localhost:3000/alunos', fetchOptions)
+          fetch('https://api.codeapps.com.br/escolas', fetchOptions),
+          fetch('https://api.codeapps.com.br/cursos', fetchOptions),
+          fetch('https://api.codeapps.com.br/alunos', fetchOptions)
         ]);
 
         const escolas = resEscolas.ok ? await resEscolas.json() : [];
