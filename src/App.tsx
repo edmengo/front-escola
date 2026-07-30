@@ -3,6 +3,8 @@ import { Toaster } from 'react-hot-toast';
 import { limparSessao, sessaoAtiva } from './api';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import EsqueciSenha from './pages/EsqueciSenha';
+import RedefinirSenha from './pages/RedefinirSenha';
 import ListaEntidades from './pages/Entidades/ListaEntidades';
 import CadastroEntidade from './pages/Entidades/CadastroEntidade';
 import EditarEntidade from './pages/Entidades/EditarEntidade';
@@ -39,5 +41,5 @@ function AdminLayout() {
 }
 
 export default function App() {
-  return <Router><Toaster position="top-right" toastOptions={{ duration: 4000 }} /><Routes><Route path="/login" element={<Login />} /><Route element={<AdminLayout />}><Route path="/" element={<Home />} /><Route path="/entidades" element={<ListaEntidades />} /><Route path="/entidades/novo" element={<CadastroEntidade />} /><Route path="/entidades/editar/:id" element={<EditarEntidade />} /><Route path="/cursos" element={<ListaCursos />} /><Route path="/cursos/novo" element={<CadastroCurso />} /><Route path="/cursos/editar/:id" element={<EditarCurso />} /><Route path="/alunos" element={<ListaAlunos />} /><Route path="/alunos/novo" element={<CadastroAluno />} /><Route path="/alunos/editar/:id" element={<EditarAluno />} /></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes></Router>;
+  return <Router><Toaster position="top-right" toastOptions={{ duration: 4000 }} /><Routes><Route path="/login" element={<Login />} /><Route path="/esqueci-senha" element={<EsqueciSenha />} /><Route path="/redefinir-senha" element={<RedefinirSenha />} /><Route element={<AdminLayout />}><Route path="/" element={<Home />} /><Route path="/entidades" element={<ListaEntidades />} /><Route path="/entidades/novo" element={<CadastroEntidade />} /><Route path="/entidades/editar/:id" element={<EditarEntidade />} /><Route path="/cursos" element={<ListaCursos />} /><Route path="/cursos/novo" element={<CadastroCurso />} /><Route path="/cursos/editar/:id" element={<EditarCurso />} /><Route path="/alunos" element={<ListaAlunos />} /><Route path="/alunos/novo" element={<CadastroAluno />} /><Route path="/alunos/editar/:id" element={<EditarAluno />} /></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes></Router>;
 }

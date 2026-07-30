@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { api, mensagemErro, salvarSessao, type Usuario } from '../api';
 
@@ -20,7 +20,7 @@ export default function Login() {
     event.preventDefault();
     setLoading(true);
     try {
-      const { data } = await api.post<LoginResponse>('/login', { email, senha_hash: senha });
+      const { data } = await api.post<LoginResponse>('/login', { email, senha });
       const token = data.token ?? data.accessToken;
       if (!token) throw new Error('A API não retornou um token de acesso.');
 
@@ -42,6 +42,7 @@ export default function Login() {
         <form onSubmit={handleLogin} className="space-y-6">
           <div><label htmlFor="email" className="login-label">E-mail corporativo</label><input id="email" type="email" autoComplete="email" required placeholder="voce@instituicao.com.br" value={email} onChange={(event) => setEmail(event.target.value)} /></div>
           <div><label htmlFor="senha" className="login-label">Senha</label><input id="senha" type="password" autoComplete="current-password" required placeholder="Digite sua senha" value={senha} onChange={(event) => setSenha(event.target.value)} /></div>
+          <Link className="login-link" to="/esqueci-senha">Esqueci minha senha</Link>
           <button type="submit" disabled={loading} className="login-submit">{loading ? 'Autenticando...' : 'Entrar no painel'} <span>→</span></button>
         </form>
         <p className="login-security">🔒 Sua sessão é protegida e monitorada.</p></div></main>
