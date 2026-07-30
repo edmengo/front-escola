@@ -12,22 +12,19 @@ import CadastroAluno from './pages/Alunos/CadastroAluno';
 import EditarAluno from './pages/Alunos/EditarAluno';
 
 import { Toaster } from 'react-hot-toast';
+import { limparSessao, sessaoAtiva } from './api';
 
 // 1. O Componente AdminLayout agora também protege as rotas
 function AdminLayout() {
   const navigate = useNavigate();
   
-  // Verifica se o usuário existe no localStorage
-  const usuarioLocal = localStorage.getItem('usuario');
-
-  // Se não existir, redireciona imediatamente para a tela de login
-  if (!usuarioLocal) {
+  if (!sessaoAtiva()) {
     return <Navigate to="/login" replace />;
   }
 
   // Função para fazer logout
   const handleLogout = () => {
-    localStorage.removeItem('usuario'); // Limpa a sessão
+    limparSessao();
     navigate('/login'); // Manda de volta pro login
   };
 
@@ -102,6 +99,7 @@ function App() {
           <Route path="/alunos/novo" element={<CadastroAluno />} />
           <Route path="/alunos/editar/:id" element={<EditarAluno />} />
         </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
