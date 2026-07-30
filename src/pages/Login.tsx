@@ -36,15 +36,15 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center p-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 border border-gray-200">
-        <div className="text-center mb-8"><h1 className="text-2xl font-bold text-gray-800">Acesso ao Sistema</h1><p className="text-gray-600 mt-2 text-sm">Insira suas credenciais para gerenciar a escola</p></div>
+    <div className="login-page">
+      <section className="login-aside"><div className="login-brand"><span>E</span><strong>Escola</strong></div><div className="login-message"><span className="section-kicker">GESTÃO EDUCACIONAL</span><h1>Uma gestão mais simples, decisões mais seguras.</h1><p>Centralize entidades, cursos e alunos em uma única plataforma de administração.</p></div><div className="login-footer">© {new Date().getFullYear()} Escola Gestão · Ambiente seguro</div></section>
+      <main className="login-main"><div className="login-card"><div className="login-card-header"><span className="section-kicker">BEM-VINDO DE VOLTA</span><h2>Acesse sua conta</h2><p>Informe suas credenciais para continuar.</p></div>
         <form onSubmit={handleLogin} className="space-y-6">
-          <div><label htmlFor="email" className="block text-sm font-medium text-gray-700">E-mail</label><input id="email" type="email" autoComplete="email" required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="admin@escola.com" value={email} onChange={(event) => setEmail(event.target.value)} /></div>
-          <div><label htmlFor="senha" className="block text-sm font-medium text-gray-700">Senha</label><input id="senha" type="password" autoComplete="current-password" required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="••••••••" value={senha} onChange={(event) => setSenha(event.target.value)} /></div>
-          <button type="submit" disabled={loading} className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 transition-colors">{loading ? 'Autenticando...' : 'Entrar'}</button>
+          <div><label htmlFor="email" className="login-label">E-mail corporativo</label><input id="email" type="email" autoComplete="email" required placeholder="voce@instituicao.com.br" value={email} onChange={(event) => setEmail(event.target.value)} /></div>
+          <div><label htmlFor="senha" className="login-label">Senha</label><input id="senha" type="password" autoComplete="current-password" required placeholder="Digite sua senha" value={senha} onChange={(event) => setSenha(event.target.value)} /></div>
+          <button type="submit" disabled={loading} className="login-submit">{loading ? 'Autenticando...' : 'Entrar no painel'} <span>→</span></button>
         </form>
-      </div>
+        <p className="login-security">🔒 Sua sessão é protegida e monitorada.</p></div></main>
     </div>
   );
 }
