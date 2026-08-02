@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { limparSessao, obterToken, salvarSessao, sessaoAtiva } from './api';
+import { limparSessao, obterToken, obterUsuario, salvarSessao, sessaoAtiva } from './api';
 
 function storageFalso() {
   const dados = new Map<string, string>();
@@ -32,5 +32,15 @@ describe('sessão', () => {
     salvarSessao('token-da-api', { id: 1 });
     limparSessao();
     expect(obterToken()).toBeNull();
+  });
+
+  it('recupera os dados do usuário autenticado', () => {
+    salvarSessao('token-da-api', { id: 1, email: 'admin@escola.com', perfil: 'admin' });
+    expect(obterUsuario()).toEqual({ id: 1, email: 'admin@escola.com', perfil: 'admin' });
+  });
+
+  it('não falha quando os dados do usuário estão corrompidos', () => {
+    localStorage.setItem('usuario', '{invalido');
+    expect(obterUsuario()).toBeNull();
   });
 });

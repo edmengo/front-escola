@@ -7,6 +7,7 @@ export interface Usuario {
   id?: number;
   nome?: string;
   email?: string;
+  perfil?: 'admin' | 'secretario' | 'professor';
 }
 
 interface JwtPayload {
@@ -40,6 +41,15 @@ export function sessaoAtiva(): boolean {
 export function salvarSessao(token: string, usuario: Usuario | undefined): void {
   localStorage.setItem(TOKEN_KEY, token);
   localStorage.setItem(USER_KEY, JSON.stringify(usuario ?? {}));
+}
+
+export function obterUsuario(): Usuario | null {
+  try {
+    const valor = localStorage.getItem(USER_KEY);
+    return valor ? JSON.parse(valor) as Usuario : null;
+  } catch {
+    return null;
+  }
 }
 
 export function limparSessao(): void {
