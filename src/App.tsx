@@ -17,6 +17,7 @@ import EditarAluno from './pages/Alunos/EditarAluno';
 import CadastroUsuario from './pages/Usuarios/CadastroUsuario';
 import EditarUsuario from './pages/Usuarios/EditarUsuario';
 import ListaUsuarios from './pages/Usuarios/ListaUsuarios';
+import AlterarSenha from './pages/AlterarSenha';
 
 type Perfil = 'admin' | 'secretario' | 'professor';
 
@@ -26,12 +27,15 @@ const navegacao = [
   { to: '/cursos', icon: '▤', label: 'Cursos' },
   { to: '/alunos', icon: '◉', label: 'Alunos' },
   { to: '/usuarios', icon: '◌', label: 'Usuários', perfis: ['admin'] as Perfil[] },
+  { to: '/minha-conta/senha', icon: '◇', label: 'Alterar senha' },
 ];
 
 function AdminLayout() {
   const navigate = useNavigate();
   if (!sessaoAtiva()) return <Navigate to="/login" replace />;
   const usuario = obterUsuario();
+  const nomeUsuario = usuario?.nome ?? usuario?.email ?? 'Usuário';
+  const iniciais = nomeUsuario.split(/\s+/).slice(0, 2).map((parte) => parte[0]).join('').toUpperCase();
   const sair = () => { limparSessao(); navigate('/login'); };
   return <div className="app-shell">
     <aside className="sidebar">
@@ -43,7 +47,7 @@ function AdminLayout() {
       </nav>
       <div className="sidebar-footer"><div className="support-card"><span>?</span><div><strong>Precisa de ajuda?</strong><small>Fale com o suporte</small></div></div><button className="logout-button" onClick={sair}><span>↗</span> Encerrar sessão</button></div>
     </aside>
-    <section className="app-content"><header className="topbar"><div><span className="eyebrow">PAINEL ADMINISTRATIVO</span><p>Gestão integrada da sua instituição</p></div><div className="user-chip"><span className="avatar">AD</span><div><strong>Administrador</strong><small>Sessão ativa</small></div></div></header><main className="page-content"><Outlet /></main></section>
+    <section className="app-content"><header className="topbar"><div><span className="eyebrow">PAINEL ADMINISTRATIVO</span><p>Gestão integrada da sua instituição</p></div><div className="user-chip"><span className="avatar">{iniciais}</span><div><strong>{nomeUsuario}</strong><small>{usuario?.perfil ?? 'Sessão ativa'}</small></div></div></header><main className="page-content"><Outlet /></main></section>
   </div>;
 }
 
@@ -53,5 +57,5 @@ function PerfilRoute({ perfis }: { perfis: Perfil[] }) {
 }
 
 export default function App() {
-  return <Router><Toaster position="top-right" toastOptions={{ duration: 4000 }} /><Routes><Route path="/login" element={<Login />} /><Route path="/esqueci-senha" element={<EsqueciSenha />} /><Route path="/redefinir-senha" element={<RedefinirSenha />} /><Route element={<AdminLayout />}><Route path="/" element={<Home />} /><Route path="/cursos" element={<ListaCursos />} /><Route path="/alunos" element={<ListaAlunos />} /><Route element={<PerfilRoute perfis={['admin', 'secretario']} />}><Route path="/entidades" element={<ListaEntidades />} /><Route path="/entidades/novo" element={<CadastroEntidade />} /><Route path="/entidades/editar/:id" element={<EditarEntidade />} /><Route path="/cursos/novo" element={<CadastroCurso />} /><Route path="/cursos/editar/:id" element={<EditarCurso />} /><Route path="/alunos/novo" element={<CadastroAluno />} /><Route path="/alunos/editar/:id" element={<EditarAluno />} /></Route><Route element={<PerfilRoute perfis={['admin']} />}><Route path="/usuarios" element={<ListaUsuarios />} /><Route path="/usuarios/novo" element={<CadastroUsuario />} /><Route path="/usuarios/editar/:id" element={<EditarUsuario />} /></Route></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes></Router>;
+  return <Router><Toaster position="top-right" toastOptions={{ duration: 4000 }} /><Routes><Route path="/login" element={<Login />} /><Route path="/esqueci-senha" element={<EsqueciSenha />} /><Route path="/redefinir-senha" element={<RedefinirSenha />} /><Route element={<AdminLayout />}><Route path="/" element={<Home />} /><Route path="/minha-conta/senha" element={<AlterarSenha />} /><Route path="/cursos" element={<ListaCursos />} /><Route path="/alunos" element={<ListaAlunos />} /><Route element={<PerfilRoute perfis={['admin', 'secretario']} />}><Route path="/entidades" element={<ListaEntidades />} /><Route path="/entidades/novo" element={<CadastroEntidade />} /><Route path="/entidades/editar/:id" element={<EditarEntidade />} /><Route path="/cursos/novo" element={<CadastroCurso />} /><Route path="/cursos/editar/:id" element={<EditarCurso />} /><Route path="/alunos/novo" element={<CadastroAluno />} /><Route path="/alunos/editar/:id" element={<EditarAluno />} /></Route><Route element={<PerfilRoute perfis={['admin']} />}><Route path="/usuarios" element={<ListaUsuarios />} /><Route path="/usuarios/novo" element={<CadastroUsuario />} /><Route path="/usuarios/editar/:id" element={<EditarUsuario />} /></Route></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes></Router>;
 }
