@@ -8,6 +8,8 @@ export interface Usuario {
   nome?: string;
   email?: string;
   perfil?: 'admin' | 'secretario' | 'professor';
+  mfa_enabled?: boolean;
+  mfa_confirmed_at?: string | null;
 }
 
 interface JwtPayload {
