@@ -19,6 +19,7 @@ import EditarUsuario from './pages/Usuarios/EditarUsuario';
 import ListaUsuarios from './pages/Usuarios/ListaUsuarios';
 import AlterarSenha from './pages/AlterarSenha';
 import ConfigurarMfa from './pages/ConfigurarMfa';
+import Passkeys from './components/Passkeys';
 
 type Perfil = 'admin' | 'secretario' | 'professor';
 
@@ -30,6 +31,7 @@ const navegacao = [
   { to: '/usuarios', icon: '◌', label: 'Usuários', perfis: ['admin'] as Perfil[] },
   { to: '/minha-conta/senha', icon: '◇', label: 'Alterar senha' },
   { to: '/minha-conta/seguranca', icon: '⌾', label: 'Segurança MFA' },
+  { to: '/minha-conta/passkeys', icon: '◉', label: 'Passkeys FIDO2' },
 ];
 
 function AdminLayout() {
@@ -58,6 +60,10 @@ function PerfilRoute({ perfis }: { perfis: Perfil[] }) {
   return perfil && perfis.includes(perfil) ? <Outlet /> : <Navigate to="/" replace />;
 }
 
+function PasskeysPage() {
+  return <div className="security-page"><header><span className="section-kicker">MINHA CONTA</span><h1>Passkeys FIDO2</h1><p>Use biometria, PIN do dispositivo ou chave física para entrar.</p></header><Passkeys /></div>;
+}
+
 export default function App() {
-  return <Router><Toaster position="top-right" toastOptions={{ duration: 4000 }} /><Routes><Route path="/login" element={<Login />} /><Route path="/esqueci-senha" element={<EsqueciSenha />} /><Route path="/redefinir-senha" element={<RedefinirSenha />} /><Route element={<AdminLayout />}><Route path="/" element={<Home />} /><Route path="/minha-conta/senha" element={<AlterarSenha />} /><Route path="/minha-conta/seguranca" element={<ConfigurarMfa />} /><Route path="/cursos" element={<ListaCursos />} /><Route path="/alunos" element={<ListaAlunos />} /><Route element={<PerfilRoute perfis={['admin', 'secretario']} />}><Route path="/entidades" element={<ListaEntidades />} /><Route path="/entidades/novo" element={<CadastroEntidade />} /><Route path="/entidades/editar/:id" element={<EditarEntidade />} /><Route path="/cursos/novo" element={<CadastroCurso />} /><Route path="/cursos/editar/:id" element={<EditarCurso />} /><Route path="/alunos/novo" element={<CadastroAluno />} /><Route path="/alunos/editar/:id" element={<EditarAluno />} /></Route><Route element={<PerfilRoute perfis={['admin']} />}><Route path="/usuarios" element={<ListaUsuarios />} /><Route path="/usuarios/novo" element={<CadastroUsuario />} /><Route path="/usuarios/editar/:id" element={<EditarUsuario />} /></Route></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes></Router>;
+  return <Router><Toaster position="top-right" toastOptions={{ duration: 4000 }} /><Routes><Route path="/login" element={<Login />} /><Route path="/esqueci-senha" element={<EsqueciSenha />} /><Route path="/redefinir-senha" element={<RedefinirSenha />} /><Route element={<AdminLayout />}><Route path="/" element={<Home />} /><Route path="/minha-conta/senha" element={<AlterarSenha />} /><Route path="/minha-conta/seguranca" element={<ConfigurarMfa />} /><Route path="/minha-conta/passkeys" element={<PasskeysPage />} /><Route path="/cursos" element={<ListaCursos />} /><Route path="/alunos" element={<ListaAlunos />} /><Route element={<PerfilRoute perfis={['admin', 'secretario']} />}><Route path="/entidades" element={<ListaEntidades />} /><Route path="/entidades/novo" element={<CadastroEntidade />} /><Route path="/entidades/editar/:id" element={<EditarEntidade />} /><Route path="/cursos/novo" element={<CadastroCurso />} /><Route path="/cursos/editar/:id" element={<EditarCurso />} /><Route path="/alunos/novo" element={<CadastroAluno />} /><Route path="/alunos/editar/:id" element={<EditarAluno />} /></Route><Route element={<PerfilRoute perfis={['admin']} />}><Route path="/usuarios" element={<ListaUsuarios />} /><Route path="/usuarios/novo" element={<CadastroUsuario />} /><Route path="/usuarios/editar/:id" element={<EditarUsuario />} /></Route></Route><Route path="*" element={<Navigate to="/" replace />} /></Routes></Router>;
 }
